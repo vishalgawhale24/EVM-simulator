@@ -1,0 +1,434 @@
+/* =========================================================
+   EVM SIMULATOR — style.css
+   Palette and layout tokens are defined once at the top
+   so the whole look can be tuned from one place.
+   ========================================================= */
+
+:root {
+  --bg: #696d7a;
+  --ink: #e9e7e0;
+  --ink-dim: #9a9d9f;
+
+  --panel-control: #c3c0b2;
+  --panel-control-dark: #8f8c7e;
+  --panel-control-ink: #25241f;
+
+  --panel-ballot: #2349a6;
+  --panel-ballot-dark: #142d66;
+  --panel-ballot-ink: #eef1f8;
+
+  --lcd-bg: #11201a;
+  --lcd-text: #39d35f;
+
+  --led-green: #39d35f;
+  --led-red: #e6453c;
+  --led-amber: #f5a623;
+  --cable: #41454c;
+
+  --font-label: 'Oswald', sans-serif;
+  --font-display: 'Share Tech Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  padding: 2.5rem 1rem 3rem;
+}
+
+/* ---------- header ---------- */
+
+.page-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: var(--led-green);
+  margin: 0 0 0.5rem;
+}
+
+.page-header h1 {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 2.6rem);
+  letter-spacing: 0.02em;
+  margin: 0 0 0.6rem;
+}
+
+.subtitle {
+  color: var(--ink-dim);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 auto;
+  max-width: 520px;
+}
+
+/* ---------- machine layout ---------- */
+
+.machine-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.unit {
+  flex: 1 1 320px;
+  max-width: 380px;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.unit-label {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 1rem;
+  margin: 0 0 1.1rem;
+}
+
+.unit-label span {
+  font-weight: 400;
+  opacity: 0.7;
+  font-size: 0.85rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.control-unit {
+  background: linear-gradient(180deg, var(--panel-control), var(--panel-control-dark));
+  color: var(--panel-control-ink);
+}
+
+.ballot-unit {
+  background: linear-gradient(180deg, var(--panel-ballot), var(--panel-ballot-dark));
+  color: var(--panel-ballot-ink);
+}
+
+/* ---------- cable ---------- */
+
+.cable {
+  flex: 0 0 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cable-track {
+  position: relative;
+  width: 64px;
+  height: 4px;
+}
+
+.cable-line {
+  position: absolute;
+  inset: 0;
+  background: var(--cable);
+  border-radius: 2px;
+}
+
+.cable-pulse {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--led-green);
+  box-shadow: 0 0 8px var(--led-green);
+  opacity: 0;
+}
+
+.cable-pulse.run {
+  animation: travel 700ms ease-in-out;
+}
+
+@keyframes travel {
+  0%   { opacity: 1; left: 0; }
+  90%  { opacity: 1; left: calc(100% - 10px); }
+  100% { opacity: 0; left: calc(100% - 10px); }
+}
+
+/* ---------- control unit details ---------- */
+
+.lcd {
+  background: var(--lcd-bg);
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.1rem;
+}
+
+.lcd-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(57, 211, 95, 0.7);
+}
+
+.lcd-value {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  color: var(--lcd-text);
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  margin-bottom: 1.2rem;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #888;
+  flex-shrink: 0;
+}
+
+.status-dot.polling { background: var(--led-green); box-shadow: 0 0 6px var(--led-green); }
+.status-dot.closed  { background: var(--led-red); box-shadow: 0 0 6px var(--led-red); }
+
+.button-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.cu-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.2s ease;
+}
+
+.cu-btn:not(:disabled):hover { transform: translateY(-1px); }
+.cu-btn:not(:disabled):active { transform: translateY(0); }
+.cu-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.cu-btn-ballot { background: var(--led-green); color: #0c2412; }
+.cu-btn-close  { background: var(--led-amber); color: #2b1900; }
+.cu-btn-result { background: #2b2e34; color: #fff; }
+
+.text-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  text-decoration: underline;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.text-btn:hover { opacity: 1; }
+
+/* ---------- ballot unit details ---------- */
+
+.lamp-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.88rem;
+}
+
+.lamp {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lamp.red   { background: var(--led-red); box-shadow: 0 0 8px var(--led-red); }
+.lamp.green { background: var(--led-green); box-shadow: 0 0 8px var(--led-green); }
+
+.candidate-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: opacity 0.2s ease;
+}
+
+.candidate-list.locked { opacity: 0.55; }
+.candidate-list.locked .vote-btn { cursor: not-allowed; }
+
+.candidate {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 0.55rem 0.8rem;
+}
+
+.candidate-symbol { font-size: 1.3rem; }
+.candidate-name { flex: 1; font-size: 0.9rem; }
+
+.vote-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #0d2050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.vote-lamp {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #555;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.vote-lamp.flash {
+  background: var(--led-amber);
+  box-shadow: 0 0 10px var(--led-amber);
+}
+
+/* ---------- result panel ---------- */
+
+.result-panel {
+  max-width: 760px;
+  margin: 2.5rem auto 0;
+  background: #262a31;
+  border-radius: 10px;
+  padding: 1.6rem 1.8rem;
+}
+
+.result-panel h2 {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 0 0 1rem;
+}
+
+.result-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.result-list li {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.result-bar {
+  height: 10px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: block;
+}
+
+.result-bar span {
+  display: block;
+  height: 100%;
+  background: var(--led-green);
+}
+
+.winner {
+  margin-top: 1.2rem;
+  font-weight: 600;
+}
+
+/* ---------- log panel ---------- */
+
+.log-panel {
+  max-width: 760px;
+  margin: 2rem auto 0;
+  background: #14171c;
+  border-radius: 10px;
+  padding: 1.3rem 1.6rem;
+}
+
+.log-panel h2 {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.95rem;
+  margin: 0 0 0.8rem;
+  color: var(--ink-dim);
+}
+
+.log-list {
+  list-style: decimal;
+  margin: 0;
+  padding-left: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: #cfd2d6;
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.disclaimer {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+  max-width: 600px;
+  margin: 2.2rem auto 0;
+  opacity: 0.65;
+}
+
+/* ---------- accessibility ---------- */
+
+button:focus-visible,
+.text-btn:focus-visible {
+  outline: 2px solid var(--led-green);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 720px) {
+  .machine-row { flex-direction: column; }
+  .cable { flex: 0 0 64px; width: 100%; }
+  .cable-track { transform: rotate(90deg); }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVM Simulator — Learn How It Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Share+Tech+Mono&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="page-header">
+    <p class="eyebrow">Learning project</p>
+    <h1>EVM Simulator</h1>
+    <p class="subtitle">A simplified model of how a Control Unit and a Ballot Unit talk to each other to record one vote at a time.</p>
+  </header>
+
+  <main class="machine-row">
+
+    <!-- CONTROL UNIT: operated by the presiding officer -->
+    <section class="unit control-unit" aria-labelledby="cu-title">
+      <h2 id="cu-title" class="unit-label">Control Unit <span>— Officer</span></h2>
+
+      <div class="lcd">
+        <span class="lcd-label">Total votes</span>
+        <span class="lcd-value" id="totalVotes">0</span>
+      </div>
+
+      <div class="status-row">
+        <span class="status-dot" id="pollStatusDot"></span>
+        <span id="pollStatusText">Poll not started</span>
+      </div>
+
+      <div class="button-stack">
+        <button id="ballotBtn" class="cu-btn cu-btn-ballot">Ballot</button>
+        <button id="closeBtn" class="cu-btn cu-btn-close" disabled>Close poll</button>
+        <button id="resultBtn" class="cu-btn cu-btn-result" disabled>Result</button>
+      </div>
+
+      <button id="clearBtn" class="text-btn" type="button">Clear &amp; restart</button>
+    </section>
+
+    <!-- CABLE: the real two units are joined by a cable; this shows a signal travelling along it -->
+    <div class="cable" aria-hidden="true">
+      <div class="cable-track">
+        <div class="cable-line"></div>
+        <div class="cable-pulse" id="cablePulse"></div>
+      </div>
+    </div>
+
+    <!-- BALLOT UNIT: faces the voter -->
+    <section class="unit ballot-unit" aria-labelledby="bu-title">
+      <h2 id="bu-title" class="unit-label">Ballot Unit <span>— Voter</span></h2>
+
+      <div class="lamp-row">
+        <span class="lamp red" id="lockedLamp"></span>
+        <span id="ballotStatusText">LOCKED — wait for officer</span>
+      </div>
+
+      <ul class="candidate-list locked" id="candidateList">
+        <!-- candidate buttons are added by script.js -->
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- RESULT PANEL: stays hidden until the officer closes the poll and presses Result -->
+  <section class="result-panel" id="resultPanel" hidden aria-labelledby="result-title">
+    <h2 id="result-title">Final result</h2>
+    <ul class="result-list" id="resultList"></ul>
+    <p class="winner" id="winnerText"></p>
+  </section>
+
+  <!-- LIVE LOG: turns the invisible state machine into a plain-English trace -->
+  <section class="log-panel" aria-labelledby="log-title">
+    <h2 id="log-title">What's happening</h2>
+    <ol class="log-list" id="logList" aria-live="polite"></ol>
+  </section>
+
+  <p class="disclaimer">This is a simplified teaching model built for learning. It does not reflect the exact hardware or software used in official elections.</p>
+
+  <script src="script.js"></script>
+</body>
+</html>
